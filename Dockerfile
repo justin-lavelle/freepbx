@@ -6,7 +6,7 @@ ENV ADMIN_PASSWORD ''
 ENV USE_CHAN_SIP 'false'
 ENV ENABLE_AUTO_RESTORE 'true'
 ENV BACKUP_TIMER '3600'
-ENV FAIL2BAN_ENABLE 'true'
+ENV FAIL2BAN_ENABLE 'false'
 ENV FAIL2BAN_FINDTIME '600'
 ENV FAIL2BAN_MAXRETRY '15'
 ENV FAIL2BAN_BANTIME '259200'
@@ -79,6 +79,10 @@ RUN curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key
     apt-get install -y pkgconf && \
     apt-get install -y nodejs yarn cron gettext libicu-dev pkg-config
 
+RUN if ! [ -d /var/log/mysql/ ]; then mkdir /var/log/mysql/; fi
+RUN if ! [ -f /var/log/mysql/error.log ]; then touch /var/log/mysql/error.log; fi
+RUN chmod -R 777 /var/log/mysql/
+
 # FreePBX
 RUN /etc/init.d/mysql start && \
     cd /usr/src/freepbx && \
@@ -137,7 +141,7 @@ RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
 CMD [ "/startup.sh" ]
 
-EXPOSE 80 3306 5060/udp 5061/udp 5160/udp 5161/udp 10000-40000/udp
+EXPOSE 80 3306 5060/udp 5061/udp 5160/udp 5161/udp 18000-18100/udp
 
 #recordings data
 VOLUME [ "/var/spool/asterisk/monitor" ]
