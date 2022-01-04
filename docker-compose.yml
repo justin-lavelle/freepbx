@@ -18,8 +18,8 @@ services:
       - MARIADB_REMOTE_ROOT_PASSWORD=admin123
       - ADMIN_PASSWORD=admin123
       - DISABLE_SIGNATURE_CHECK=true
-      - USE_CHAN_SIP=true
-      - FAIL2BAN_ENABLE=true
+      - USE_CHAN_SIP=false
+      - FAIL2BAN_ENABLE=false
       - FAIL2BAN_FINDTIME=30
       - FAIL2BAN_MAXRETRY=10
       - FAIL2BAN_BANTIME=10
